@@ -23,9 +23,10 @@ This README outlines the steps required to set up the environment, install depen
     - Install the Kaggle API - `pip install kaggle`
     
 - **Download Dataset from Kaggle**
-    - Download Dataset from Kaggle
+    - Use the following commands to download the datasets from Kaggle:
         - `kaggle datasets download cjgdev/formula-1-race-data-19502017`
         - `kaggle datasets download jtrotman/formula-1-race-events/50`
+    - After downloading, unzip the downloaded files to access the data.
 
 
 
