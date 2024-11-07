@@ -80,6 +80,42 @@ lap_data['location'] = lap_data['location'].astype('category').cat.codes
 lap_data['country'] = lap_data['country'].astype('category').cat.codes
 lap_data['year'] = lap_data['year'].astype('category').cat.codes
 
+# Load the drivers dataset
+drivers = pd.read_csv('formula-1-race-data-19502017/drivers.csv', encoding='latin1')
+
+# Check the columns of the drivers dataset
+print(drivers.columns)
+
+# Merge the 'results' dataset with the 'drivers' dataset on 'driverId'
+driver_info = pd.merge(results, drivers[['driverId', 'forename', 'surname']], on='driverId', how='left')
+
+# Create a full name column by combining 'forename' and 'surname'
+driver_info['full_name'] = driver_info['forename'] + ' ' + driver_info['surname']
+
+# Now you can use the 'full_name' column in your descriptions
+description = [f"Driver {row['full_name']} completed lap {row['laps']} in {row['time']}" 
+                    for index, row in driver_info.iterrows()]
+
+
+# Output the first few descriptions to verify
+print(description[:5])
+
+# # Convert milliseconds to minutes:seconds format for lap times
+# lap_data['lap_time'] = lap_data['milliseconds_x'] / 1000  # Convert to seconds
+# lap_data['lap_time_formatted'] = lap_data['lap_time'].apply(lambda x: f"{int(x // 60)}:{int(x % 60):02d}.{int((x * 100) % 100):02d}")
+
+# Convert the description list to a pandas DataFrame
+description_df = pd.DataFrame(description, columns=['description'])
+
+# Save the DataFrame to a CSV file
+description_df.to_csv('lap_descriptions.csv', index=False)
+
+# Removing duplicates
+lap_data.drop_duplicates(inplace=True)
+
+# Save preprocessed data to CSV
+lap_data.to_csv('preprocessed_lap_data.csv', index=False)
+
 # Removing duplicates
 lap_data.drop_duplicates(inplace=True)
 
