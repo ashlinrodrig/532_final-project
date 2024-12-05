@@ -9,6 +9,7 @@ from evaluate import load
 from GPUtil import getGPUs
 from sklearn.metrics import accuracy_score
 from evaluate import load
+import matplotlib.pyplot as plt
 
 # Loading training data
 df = pd.read_csv("training_data.csv")
@@ -180,3 +181,73 @@ def measure_performance():
 
 # Call the function to measure performance
 measure_performance()
+
+def log_memory_during_inference_whole_data(test_dataset, device):
+    memory_log = []
+    gpu_memory_log = []
+    timestamps = []
+    start_time = time.time()
+
+    for i, test_sample in enumerate(test_dataset):
+        # Extract input text
+        input_text = test_sample["input_text"]
+
+        # Tokenize the input
+        test_input = tokenizer(input_text, return_tensors="pt", padding=True, truncation=True).to(device)
+
+        # Measure memory usage before generating predictions
+        memory_used = psutil.virtual_memory().used / (1024 ** 2)  # Convert to MB
+        gpu_memory_used = getGPUs()[0].memoryUsed / (1024 ** 2) if torch.cuda.is_available() else 0
+
+        # Generate the prediction
+        model.generate(**test_input, max_length=10)
+
+        # Measure memory usage after generating predictions
+        memory_log.append(memory_used)
+        gpu_memory_log.append(gpu_memory_used)
+        timestamps.append(time.time() - start_time)
+
+        # Print progress every 50 samples
+        if (i + 1) % 50 == 0:
+            print(f"Processed {i + 1}/{len(test_dataset)} samples...")
+
+    # Return memory logs and timestamps
+    return timestamps, memory_log, gpu_memory_log
+
+# subset_test_dataset = tokenized_test_dataset.select(range(10)) # testing for some small dataset first
+timestamps, memory_log, gpu_memory_log = log_memory_during_inference_whole_data(tokenized_test_dataset, device)
+
+print("printing the test results here to save for future purposes - ")
+print("Timestamps - ", timestamps)
+print("memory_log - ", memory_log)
+print("gpu memory log - ", gpu_memory_log)
+# Plot memory usage over time
+plt.figure(figsize=(12, 6))
+
+plt.plot(timestamps, memory_log, label="CPU Memory Usage (MB)", color="blue")
+if any(gpu_memory_log):  # Check if GPU memory log is non-zero
+    plt.plot(timestamps, gpu_memory_log, label="GPU Memory Usage (MB)", color="orange")
+
+# Add labels, title, and legend
+plt.title("Memory Usage Over Time During Inference (Whole Test Dataset)")
+plt.xlabel("Time (s)")
+plt.ylabel("Memory Usage (MB)")
+plt.legend()
+plt.grid(True)
+
+# Show the plot
+plt.show()
+
+# Calculate statistics
+peak_cpu_memory = max(memory_log)
+average_cpu_memory = sum(memory_log) / len(memory_log)
+
+peak_gpu_memory = max(gpu_memory_log) if any(gpu_memory_log) else 0
+average_gpu_memory = sum(gpu_memory_log) / len(gpu_memory_log) if any(gpu_memory_log) else 0
+
+# Display statistics
+print(f"Peak CPU Memory Usage: {peak_cpu_memory:.2f} MB")
+print(f"Average CPU Memory Usage: {average_cpu_memory:.2f} MB")
+if peak_gpu_memory > 0:
+    print(f"Peak GPU Memory Usage: {peak_gpu_memory:.2f} MB")
+    print(f"Average GPU Memory Usage: {average_gpu_memory:.2f} MB")
