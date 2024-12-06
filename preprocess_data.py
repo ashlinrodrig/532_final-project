@@ -83,22 +83,47 @@ lap_data['year'] = lap_data['year'].astype('category').cat.codes
 # Load the drivers dataset
 drivers = pd.read_csv('formula-1-race-data-19502017/drivers.csv', encoding='latin1')
 
-# Check the columns of the drivers dataset
-print(drivers.columns)
+# # Check the columns of the drivers, results and lap_data dataset
+# print("lap data columns - ", lap_data.columns)
+# print("drivers columns - ", drivers.columns)
+# print("results columns - ", results.columns)
 
 # Merge the 'results' dataset with the 'drivers' dataset on 'driverId'
-driver_info = pd.merge(results, drivers[['driverId', 'forename', 'surname']], on='driverId', how='left')
+driver_info = pd.merge(lap_data, drivers[['driverId', 'forename', 'surname']], on='driverId', how='left')
+driver_info = pd.merge(driver_info, results, on=['raceId', 'driverId'], how='left')
 
 # Create a full name column by combining 'forename' and 'surname'
 driver_info['full_name'] = driver_info['forename'] + ' ' + driver_info['surname']
 
-# Now you can use the 'full_name' column in your descriptions
-description = [f"Driver {row['full_name']} completed lap {row['laps']} in {row['time']}" 
-                    for index, row in driver_info.iterrows()]
+duplicate_content = []
+for col1 in driver_info.columns:
+    for col2 in driver_info.columns:
+        if col1 != col2 and driver_info[col1].equals(driver_info[col2]):
+            duplicate_content.append((col1, col2))
+columns_to_drop = list(set([col[1] for col in duplicate_content]))
+driver_info = driver_info.drop(columns=columns_to_drop)
+print("removed columns which had duplicated content")
 
+print("driver info columns - ", driver_info.columns)
+
+# Now you can use the 'full_name' column in your descriptions
+description = [
+    f"Driver {row['full_name']} completed lap {row['lap']} in {row['time']}, "
+    f"cumulative time {row['cumulative_time']}, degradation {row['lap_degradation']}, "
+    f"race {row['Race']} in {row['year']}, position {row['position_x']}, "
+    f"safety car flag {row['safety_car_flag']}."
+    for _, row in driver_info.iterrows()
+]
 
 # Output the first few descriptions to verify
 print(description[:5])
+
+training_data = [
+    {"description": desc, "target": row['is_pit_stop']}
+    for desc, (_, row) in zip(description, driver_info.iterrows())
+]
+
+pd.DataFrame(training_data).to_csv('training_data.csv', index=False)
 
 # # Convert milliseconds to minutes:seconds format for lap times
 # lap_data['lap_time'] = lap_data['milliseconds_x'] / 1000  # Convert to seconds
