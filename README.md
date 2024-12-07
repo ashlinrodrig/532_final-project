@@ -30,5 +30,20 @@ This README outlines the steps required to set up the environment, install depen
 
 - As the dataset is huge, training the Flan-T5 model takes a lot of time, so, I have added the training data csv file, 80% of which has been used to train the model and have added the zip file of the model here - https://drive.google.com/file/d/1mZARX-LWDJv0jeNX2CkufnUhJraMzTAT/view?usp=sharing. Please use your UMass email to access the model.
 
+##Results:
+
+Flan T5 
+Memory Usage:
+<img width="946" alt="image" src="https://github.com/user-attachments/assets/ef5554e1-03d3-4772-9a0c-52b71af862c4">
+
+
+LSTM:
+Latency:
+<img width="816" alt="image" src="https://github.com/user-attachments/assets/140590cf-cc3f-4bfa-9cc0-5517b67ae73c">
+
+Throughput:
+<img width="894" alt="image" src="https://github.com/user-attachments/assets/76e5c74c-61c7-452c-9835-b6611d2a6263">
+
+
 
 
