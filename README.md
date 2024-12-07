@@ -32,16 +32,16 @@ This README outlines the steps required to set up the environment, install depen
 
 ##Results:
 
-Flan T5 
-Memory Usage:
+Flan T5 <br>
+Memory Usage: <br>
 <img width="946" alt="image" src="https://github.com/user-attachments/assets/ef5554e1-03d3-4772-9a0c-52b71af862c4">
 
-
-LSTM:
-Latency:
+<br>
+LSTM: <br>
+Latency: <br>
 <img width="816" alt="image" src="https://github.com/user-attachments/assets/140590cf-cc3f-4bfa-9cc0-5517b67ae73c">
-
-Throughput:
+<br>
+Throughput: <br>
 <img width="894" alt="image" src="https://github.com/user-attachments/assets/76e5c74c-61c7-452c-9835-b6611d2a6263">
 
 
