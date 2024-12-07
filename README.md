@@ -27,15 +27,22 @@ This README outlines the steps required to set up the environment, install depen
         - `kaggle datasets download cjgdev/formula-1-race-data-19502017`
         - `kaggle datasets download jtrotman/formula-1-race-events/50`
     - After downloading, unzip the downloaded files to access the data.
+ 
+## Usage:
+ 
+- **Run preprocessing:**
+  python preprocess_data.py  
+
+- **Run Flan-T5 model:**
+  python flan_t5_model.py
 
 - As the dataset is huge, training the Flan-T5 model takes a lot of time, so, I have added the training data csv file, 80% of which has been used to train the model and have added the zip file of the model here - https://drive.google.com/file/d/1mZARX-LWDJv0jeNX2CkufnUhJraMzTAT/view?usp=sharing. Please use your UMass email to access the model.
-
 
 ## Instructions to Run the LSTM Model
 
 - Open the Notebook: Navigate to the LSTM_532.ipynb notebook located in this repository.
 
-- Download the Dataset: Download the f1dataset.csv file from the link provided in the repository.
+- Download the Dataset: Download the f1dataset.csv file from the link provided in the notebook.
 
 - Update Dataset Path: In the notebook, locate the section where the dataset path is specified and update it to the location where you have saved the f1dataset.csv file.
 
@@ -54,10 +61,6 @@ Latency: <br>
 <br>
 Throughput: <br>
 <img width="894" alt="image" src="https://github.com/user-attachments/assets/76e5c74c-61c7-452c-9835-b6611d2a6263">
-
-## Installation:
-git clone https://github.com/username/project-name.git  
-cd 532_final-project
 
 ## Usage:
 
