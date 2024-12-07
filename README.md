@@ -30,6 +30,17 @@ This README outlines the steps required to set up the environment, install depen
 
 - As the dataset is huge, training the Flan-T5 model takes a lot of time, so, I have added the training data csv file, 80% of which has been used to train the model and have added the zip file of the model here - https://drive.google.com/file/d/1mZARX-LWDJv0jeNX2CkufnUhJraMzTAT/view?usp=sharing. Please use your UMass email to access the model.
 
+
+## Instructions to Run the LSTM Model
+
+- Open the Notebook: Navigate to the LSTM_532.ipynb notebook located in this repository.
+
+- Download the Dataset: Download the f1dataset.csv file from the link provided in the repository.
+
+- Update Dataset Path: In the notebook, locate the section where the dataset path is specified and update it to the location where you have saved the f1dataset.csv file.
+
+- Run the Notebook: After setting the correct dataset path, run all the cells in the notebook to begin training and evaluating the model.
+  
 ## Results:
 
 Flan T5 <br>
