@@ -55,6 +55,18 @@ Latency: <br>
 Throughput: <br>
 <img width="894" alt="image" src="https://github.com/user-attachments/assets/76e5c74c-61c7-452c-9835-b6611d2a6263">
 
+## Installation:
+git clone https://github.com/username/project-name.git  
+cd 532_final-project
 
+## Usage:
+
+- **Run preprocessing:**
+  python preprocess_data.py  
+
+- **Run Flan-T5 model:**
+  python flan_t5_model.py
+
+- **Run LSTM:**
 
 
