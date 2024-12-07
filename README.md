@@ -9,7 +9,7 @@ This README outlines the steps required to set up the environment, install depen
 
 ## Project Setup
 - **Create a virtual environment**
-    - Navigate to your project directory - `cd /path/to/your/project`
+    - Navigate to your project directory - `cd 532_final-project`
     - Create a virtual environment - `python3 -m venv ~/kaggle-env`
     - Activate the virtual environment - `source ~/kaggle-env/bin/activate`
 
